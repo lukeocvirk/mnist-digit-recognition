@@ -17,7 +17,7 @@ def get_mnist_loaders(
     :param batch_size: batch size for loaders.
     :param val_frac: fraction of the training set to hold out for validation (0..1).
     :param device: torch.device used to decide pin_memory (if None, auto-detect).
-    :param num_workers: DataLoader num_workers (set to 0 on some platforms if you hit issues).
+    :param num_workers: DataLoader num_workers.
     :returns: (train_loader, val_loader, test_loader)
     """
     if device is None:
@@ -47,7 +47,6 @@ def get_mnist_loaders(
     generator = torch.Generator().manual_seed(42)  # reproducible split
     train_dataset, val_dataset = random_split(train_full, [n_train, n_val], generator=generator)
 
-    # pin_memory is useful only for CUDA; MPS/CPU should not use it (avoids the warning you saw)
     pin_memory = True if device.type == "cuda" else False
 
     train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True, num_workers=num_workers, pin_memory=pin_memory)
