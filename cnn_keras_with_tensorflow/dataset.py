@@ -1,7 +1,9 @@
 import tensorflow as tf
 import tensorflow_datasets as tfds
 
-def normalize_img(image, label):
+from typing import Any
+
+def normalize_img(image, label) -> Any:
     """Normalizes images from `uint8` -> `float32`.
     
     :param image: The image to normalize.
@@ -9,9 +11,9 @@ def normalize_img(image, label):
     """
     return tf.cast(image, tf.float32) / 255, label
 
-def create_model():
+def create_model() -> Any:
     """Load the MNIST dataset, create training/testing pipelines, then
-    run the model.
+    train and test the model.
     
     :returns: A tuple containing an image of a digit and a label, and
     dataset info.
@@ -60,7 +62,8 @@ def create_model():
 
     model.fit(
         ds_train,
-        epochs=20,
+        epochs=10,
         validation_data=ds_test,
     )
 
+    return model
